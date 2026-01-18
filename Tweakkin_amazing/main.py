@@ -12,3 +12,5 @@ if __name__ == "__main__":
 				line = line.split(sep='=', maxsplit=1)
 				parsed_dict.update({line[0].strip() : line[1].strip()})
 		print(parsed_dict)
+
+#testing git
