@@ -1,0 +1,20 @@
+1. File-level errors
+-File not found
+-Cannot open file
+-No read permission
+
+2. Syntax errors (formatting)
+-Wrong format (: instead of =)
+-Missing key or missing value
+-Extra symbols
+-Empty lines with junk data
+
+3. Semantic errors (meaning problems)
+-Wrong types (width=abc)
+-Values not convertible (perfect=maybe)
+
+4. Logical errors (impossible conditions)
+-width=0
+-height < 2
+-Required fields missing
+-Contradictory values (perfect=false + force_perfection=true)
