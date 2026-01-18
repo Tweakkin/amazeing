@@ -13,7 +13,8 @@
 #!/usr/bin/env python
 
 from typing import Dict
-import argparse
+import sys 
+import random
 
 
 def arg_parsing() -> Dict:
@@ -22,23 +23,42 @@ def arg_parsing() -> Dict:
         variable given in the config file or empty dict if invalid args, or 
         if failed to open the file
     """
+    config_variables: Dict = {}
 
-    config_variables = {}
+    if len(sys.argv) < 2:
+        print("Error: No configuration provided."
+              "\nUsgae: python3 a_maze_ing.py <config.txt>")
+        return config_variables
+
+    if len(sys.argv) > 2:
+        print("Warning: Too many arguments provided."
+              "Only the first one will be used\n")
+
+    # File-level errors handling:
+    # File not found, Cannot open file, No read permission
+    config_file = sys.argv[1]
     try:
-        parser = argparse.ArgumentParser()
-        parser.add_argument('config_file', help='Path to configuration file')
-        args = parser.parse_args()
-        with open(args.config_file, 'r') as f:
+        with open(config_file, 'r') as f:
             for line in f:
                 line = line.strip()
                 if not line or line.startswith('#'):
                     continue
-                key, value = line.split("=", 1)
-                config_variables[key] = value
-    except Exception:
-        print(f"can't open file {args.config_file}, no such file or directory")
+                config_variables[line] = line
+                # key, value = line.split("=", 1)
+                # config_variables[key] = value
+    except FileNotFoundError:
+        print(f"[Error]: Cannot open file '{config_file}'\n"
+               "Error detail: File not found")
+        return config_variables
+    except PermissionError:
+        print(f"[Error]: Cannot open file '{config_file}'\n"
+               "Error detail: Permission error")
+        return config_variables
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+
+    # argument validation
     return config_variables
 
 
 print(arg_parsing())
-print("test_git")
