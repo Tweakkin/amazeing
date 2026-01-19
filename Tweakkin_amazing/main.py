@@ -1,4 +1,5 @@
 import sys
+import os
 
 
 def parse_coordinate(coordinates, height, width):
@@ -95,4 +96,19 @@ if __name__ == "__main__":
 		perfect_val = False
 	else:
 		print(f"Error: PERFECT must be 'True' or 'False'. Found '{raw_perfect}'.")
+		sys.exit(1)
+	
+	#Validating 'OUTPUT_FILE'
+	#does it end with .txt?
+	if not parsed_dict['OUTPUT_FILE'].endswith('.txt'):
+		print("Error: 'OUTPUT_FILE' must end with .txt")
+		sys.exit(1)
+	#is it a directory?
+	if os.path.isdir(parsed_dict['OUTPUT_FILE']):
+		print("Error: 'OUTPUT_FILE' is a directory, not a file.")
+		sys.exit(1)
+	#Is the path valid?
+	path = os.path.dirname(parsed_dict['OUTPUT_FILE'])
+	if path and (not os.path.exists(path)):
+		print("Error: Path doesn't exist for 'OUTPUT_FILE'")
 		sys.exit(1)
